@@ -1,0 +1,170 @@
+{% extends 'USER/userBase.html' %}
+{% block header %}
+{% load static %}
+
+<style>
+    #image {
+        height: 250px;
+    }
+</style>
+
+<!-- page-title -->
+<section class="page-title p_relative centred">
+    <div class="bg-layer" style="background-image: url(/static/assets/images/background/page-title.jpg);"></div>
+    <div class="auto-container">
+        <div class="content-box">
+            <h1>Upload & Predict</h1>
+            <ul class="bread-crumb clearfix">
+                <li><a href="/userhome">Home</a></li>
+                <li>Prediction</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!-- page-title end -->
+
+
+
+<!-- contact-style-three -->
+<section class="contact-style-three pt_90 pb_120">
+    <div class="auto-container">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 form-column">
+                <div class="form-inner mr_40">
+                    <div class="sec-title mb_50">
+                        <h2 class="text-center">Upload Image</h2>
+                    </div>
+                    <form method="post" id="contact-form" class="default-form" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row clearfix">
+                            <div class="col-lg-4 col-md-4 col-sm-4 form-group"></div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 form-group">
+                                <input type="file" name="imagefile" accept="Image/*" required="" class="form-control">
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8 form-group message-btn">
+                                <button class="theme-btn btn-one float-end" type="submit"
+                                    name="submit-form"><span>Predict</span></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- <div class="col-lg-4 col-md-12 col-sm-12 image-column">
+                <figure class="image-box"><img src="{% static 'assets/images/resource/contact-1.jpg' %}" alt="">
+                </figure>
+            </div> -->
+
+            <div class="container text-center mt-5">
+                <!-- <img id="output_image" width="400" height="250"/> -->
+                {% if prediction %}
+                <h2>Prediction Result: <span><b>{{prediction}}</b></span></h2>
+                <!-- <p>{{ prediction }}</p> -->
+                <img src="../static/media/{{image_path}}" alt="uploaded image" width="400" height="250" />
+                {% endif %}
+            </div>
+
+            {% if data %}
+
+            <section class="team-section sec-pad centred">
+                <h2 class="text-center">Available Doctors</h2>
+                <div class="auto-container">
+                    <div class="row clearfix">
+                        {% for i in data %}
+                        <div class="col-lg-4 col-md-6 col-sm-12 team-block">
+                            <div class="team-block-one wow fadeInUp animated" data-wow-delay="00ms"
+                                data-wow-duration="1500ms">
+                                <div class="inner-box">
+                                    <div class="image-box">
+                                        <figure class="image"><img id="image" src="/static/media/{{i.image}}" alt="">
+                                        </figure>
+                                    </div>
+                                    <div class="lower-content">
+                                        <h3><a>{{i.name}}</a></h3>
+                                        <span class="designation">{{i.email}}</span>
+                                        <span class="designation">{{i.phone}}</span>
+                                        <hr>
+                                        <span class="designation">{{i.address}}</span>
+                                    </div>
+                                    <div class="btn-div mb-2">
+                                        <!-- <a class="btn btn-success" href="/updatehospital?id={{i.loginid_id}}">Update</a> -->
+                                        <span class="btn btn-success" data-toggle="modal"
+                                            data-target="#sendInter{{i.id}}">Book
+                                            Now</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- INTEREST POPUP -->
+                        <div class="modal fade" id="sendInter{{i.id}}">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title seninter-tit">Select Date<span class="intename"></span>
+                                        </h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+
+                                    <!-- Modal body -->
+                                    <div class="modal-body seninter">
+                                        <div class="lhs">
+                                            <img src="{% static 'images/profiles/1.jpg' %}" alt="" class="intephoto1">
+                                        </div>
+                                        <div class="rhs">
+                                            <form method="post" id="contact-form" class="default-form">
+                                                {% csrf_token %}
+                                                <div class="row clearfix">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                                        <input type="text" name="date" onfocus="(this.type='date')"
+                                                            onblur="(this.type='text')" required=""
+                                                            placeholder="Select Date">
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                                        <input type="hidden" name="did" value="{{i.id}}">
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <button type="submit" name="book" class="btn btn-primary">Book
+                                            Now</button>
+                                        <button type="button" class="btn btn-outline-danger"
+                                            data-dismiss="modal">Cancel</button>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END INTEREST POPUP -->
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+
+<!-- contact-style-three end -->
+
+
+<!-- <script type='text/javascript'>
+    function preview_image(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('output_image');
+            output.src = reader.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script> -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}

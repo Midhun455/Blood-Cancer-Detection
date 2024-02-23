@@ -1,0 +1,100 @@
+{% extends "ADMIN/adminBase.html" %}
+{% block header %}
+{% load static %}
+
+
+<style>
+    #image {
+        height: 400px;
+        width: 400px;
+    }
+</style>
+
+<!-- page-title -->
+<section class="page-title p_relative centred">
+    <div class="bg-layer" style="background-image: url(/static/assets/images/background/page-title.jpg);"></div>
+    <div class="auto-container">
+        <div class="content-box">
+            <h1>Update Hospital</h1>
+            <ul class="bread-crumb clearfix">
+                <li><a href="/adminHome">Home</a></li>
+                <li>Update Hospital</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!-- page-title end -->
+
+
+<!-- contact-style-three -->
+<section class="contact-style-three pt_90 pb_120">
+    <div class="auto-container">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 form-column">
+                <div class="form-inner mr_40">
+                    <div class="sec-title mb_50">
+                        <h2 class="text-center">Enter Hospital Details</h2>
+                    </div>
+                    <form method="post" id="contact-form" class="default-form" enctype="multipart/form-data"
+                        onsubmit="return checkImageSelected()">
+                        {% csrf_token %}
+                        <div class="row clearfix">
+                            <div class="image-upload text-center" style="margin-top: -30px;">
+                                <label for="file-input">
+                                    <img id="img" src="/static/media/{{data.image}}" alt="Upload Image"
+                                        title="Upload Image" style="margin: auto" />
+                                </label>
+                                <p class="mb-2">Choose Image</p>
+                                <input id="file-input" required onchange="readURL(this)" name="imgfile" type="file" />
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                <input type="text" value="{{data.name}}" name="name" placeholder="Hospital Name"
+                                    required="">
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                <input type="email" value="{{data.email}}" name="email" placeholder="Email" required="">
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                <input type="text" value="{{data.phone}}" pattern="[6789][0-9]{9}" maxlength="10"
+                                    minlength="10" name="phone" required="" placeholder="Phone">
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                <input value="{{data.loginid.viewPass}}" type="password" name="password" required=""
+                                    placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                    title="Must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters">
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                <textarea name="address" placeholder="Address" required>{{data.address}}</textarea>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 form-group message-btn">
+                                <button class="theme-btn btn-one float-end" type="submit"
+                                    name="submit-form"><span>UPDATE</span></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- <div class="col-lg-4 col-md-12 col-sm-12 image-column">
+                <figure class="image-box"><img src="{% static 'assets/images/resource/contact-1.jpg' %}" alt="">
+                </figure>
+            </div> -->
+        </div>
+    </div>
+</section>
+<!-- contact-style-three end -->
+
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $("#img").attr("src", e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
+{% endblock %}
