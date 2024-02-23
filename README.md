@@ -38,5 +38,3 @@ variability among medical personnel in the diagnosis of cancer. Automated detect
 of cancer from blood cell images at the level of expert medical personnel would not
 only have tremendous benefit in clinical settings, it would also be invaluable in delivery
 of health care to populations with inadequate access to diagnostic imaging specialists.
-
-# visit [aihubprojects.com](https://aihubprojects.com/blood-cancer-detection-using-cnn-ai-projects/) for more 
